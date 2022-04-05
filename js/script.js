@@ -1,37 +1,106 @@
-const add = arr => arr.reduce((a, b) => a + b)
+const add = (a, b) => a + b
 
-const sub = arr => arr.reduce((a, b) => a - b)
+const sub = (a, b) => a - b
 
-const mul = arr => arr.reduce((a, b) => a * b)
+const mul = (a, b) => a * b
 
-const div = arr => arr.reduce((a, b) => b === 0 ? "You can't divide by zero." : a / b)
+const div = (a, b) => b === 0 ? alert("You can't divide by 0!") : a / b
 
-const operate = (op, arr) => {
-    if (op === '+') return add(arr);
-    if (op === '-') return sub(arr);
-    if (op === '*') return mul(arr);
-    if (op === '/') return div(arr);
+const operate = (op, a, b) => {
+    a = Number(a)
+    b = Number(b)
+    if (op === '+') return add(a, b);
+    if (op === '-') return sub(a, b);
+    if (op === '*') return mul(a, b);
+    if (op === '/') return div(a, b);
 }
 
-const conv = arr => arr.map(Number)
+let firstOp = ''
+let secondOp = ''
+let currentOp = null
+let resetScreen = false
 
-let display = document.querySelector('h1');
-let buttons = document.querySelectorAll('button');
-let operators = document.querySelectorAll('.operator');
+const lastDisplay = document.querySelector('.last')
+const currentDisplay = document.querySelector('.current')
+const display = document.querySelector('.display')
+const clearBtn = document.querySelector('.clear')
+const deleteBtn = document.querySelector('.delete')
+const operators = document.querySelectorAll('.operator')
+const numberBtn = document.querySelectorAll('.number')
+const pointBtn = document.querySelector('.point')
+const equalBtn = document.querySelector('.equal')
+const calculator = document.querySelector('.calculator')
+const body = document.querySelector('body')
 
-buttons.forEach(btn => btn.addEventListener('click', () => {
+equalBtn.addEventListener('click', evaluate)
+clearBtn.addEventListener('click', clear)
+deleteBtn.addEventListener('click', deleteNumber)
+pointBtn.addEventListener('click', appendPoint)
 
-    let a = []
-    a.push(display.innerHTML);
+calculator.addEventListener('mouseover', () => {
+    body.style.setProperty('backdrop-filter', 'blur(5px)')
+    calculator.classList.add('scaler')
+})
+calculator.addEventListener('mouseout', () => {
+    body.style.setProperty('backdrop-filter', 'blur(0px)')
+    calculator.classList.remove('scaler')
+})
 
-    if (btn.textContent === '=') {
-        while (a[0].include('+')) {
-            console.log(a)
-        }
-    } else if (btn.textContent === 'clear') {
-        a = []
-        display.textContent = '';
-    } else {
-        display.textContent += btn.textContent + "";
-    }
-}))
+
+numberBtn.forEach((button) =>
+    button.addEventListener('click', () => appendNumber(button.textContent))
+)
+
+operators.forEach((button) =>
+    button.addEventListener('click', () => setOperation(button.textContent))
+)
+
+function appendNumber(number) {
+    if (currentDisplay.textContent === '0' || resetScreen) resetScr()
+    currentDisplay.textContent += number
+}
+
+function deleteNumber() {
+    currentDisplay.textContent = currentDisplay.textContent.toString().slice(0, -1)
+}
+
+function setOperation(operator) {
+    if (currentDisplay !== null) evaluate()
+    firstOp = currentDisplay.textContent
+    currentOp = operator
+    lastDisplay.textContent = `${firstOp} ${currentOp}`
+    resetScreen = true
+}
+
+function evaluate() {
+    if (currentOp === null || resetScreen) return
+    secondOp = currentDisplay.textContent
+    currentDisplay.textContent = roundResult(operate(currentOp, firstOp, secondOp))
+    lastDisplay.textContent = `${firstOp} ${currentOp} ${secondOp} =`
+    currentOp = null
+}
+
+function roundResult(number) {
+    return Math.round(number * 1000) / 1000
+}
+
+function resetScr() {
+    currentDisplay.textContent = ''
+    resetScreen = false
+}
+
+function clear() {
+    currentDisplay.textContent = '0'
+    lastDisplay.textContent = ''
+    firstOp = ''
+    secondOp = ''
+    currentOp = null
+}
+
+function appendPoint() {
+    if (resetScreen) resetScr()
+    if (currentDisplay.textContent === '')
+        currentDisplay.textContent = '0'
+    if (currentDisplay.textContent.includes('.')) return
+    currentDisplay.textContent += '.'
+}
