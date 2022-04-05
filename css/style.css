@@ -74,7 +74,7 @@ body {
 .buttons {
     display: flex;
     gap: 10px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     flex-direction: column;
     justify-content: flex-end;
     margin-bottom: 10px;
