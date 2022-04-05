@@ -74,7 +74,7 @@ body {
 .buttons {
     display: flex;
     gap: 10px;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     flex-direction: column;
     justify-content: flex-end;
     margin-bottom: 10px;
@@ -83,11 +83,11 @@ body {
 .eraser {
     display: flex;
     justify-content: space-between;
-    flex-shrink: 1;
 }
 
 .clear,
 .delete {
+    width: 210px;
     font-weight: 550;
     background-color: #ff000070;
 }
@@ -134,19 +134,10 @@ a:hover {
     color: black;
 }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+
+/* @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
     .calculator {
-        width: 80%;
-        height: 60%;
+        width: 225px;
+        height: 50px;
     }
-    button {
-        width: 25%;
-        height: 25%;
-    }
-    .blur {
-        backdrop-filter: blur(0px);
-    }
-    .scaler {
-        transform: scale(1);
-    }
-}
+} */
