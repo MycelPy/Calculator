@@ -32,6 +32,7 @@ const equalBtn = document.querySelector('.equal')
 const calculator = document.querySelector('.calculator')
 const body = document.querySelector('body')
 
+window.addEventListener('keydown', handleKeyboardInput)
 equalBtn.addEventListener('click', evaluate)
 clearBtn.addEventListener('click', clear)
 deleteBtn.addEventListener('click', deleteNumber)
@@ -45,7 +46,6 @@ calculator.addEventListener('mouseout', () => {
     body.style.setProperty('backdrop-filter', 'blur(0px)')
     calculator.classList.remove('scaler')
 })
-
 
 numberBtn.forEach((button) =>
     button.addEventListener('click', () => appendNumber(button.textContent))
@@ -103,4 +103,14 @@ function appendPoint() {
         currentDisplay.textContent = '0'
     if (currentDisplay.textContent.includes('.')) return
     currentDisplay.textContent += '.'
+}
+
+function handleKeyboardInput(e) {
+    if (e.key >= 0 && e.key <= 9) appendNumber(e.key)
+    if (e.key === '.') appendPoint()
+    if (e.key === '=' || e.key === 'Enter') evaluate()
+    if (e.key === 'Backspace') deleteNumber()
+    if (e.key === 'Escape') clear()
+    if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/')
+        setOperation(e.key)
 }
