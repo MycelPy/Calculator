@@ -83,11 +83,11 @@ body {
 .eraser {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .clear,
 .delete {
-    width: 210px;
     font-weight: 550;
     background-color: #ff000070;
 }
@@ -138,5 +138,9 @@ a:hover {
     .calculator {
         width: 225px;
         height: 250px;
+    }
+    .button {
+        width: 50px;
+        height: 30px;
     }
 }
